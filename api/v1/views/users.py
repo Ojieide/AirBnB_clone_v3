@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-'''Contains the users view for the API.'''
+"""
+Creates a new view for User object that handles
+all default RESTFul API actions
+"""
 from flask import jsonify, request
 from werkzeug.exceptions import NotFound, BadRequest
 
@@ -11,8 +14,7 @@ from models.user import User
 @app_views.route('/users', methods=['GET'])
 @app_views.route('/users/<user_id>', methods=['GET'])
 def get_users(user_id=None):
-    '''Gets the user with the given id or all users.
-    '''
+    """ Retrieves a User object or list of all User objects """
     if user_id:
         user = storage.get(User, user_id)
         if user:
@@ -37,8 +39,7 @@ def get_users(user_id=None):
 
 @app_views.route('/users/<user_id>', methods=['DELETE'])
 def remove_user(user_id):
-    '''Removes a user with the given id.
-    '''
+    """ Deletes a User object """
     user = storage.get(User, user_id)
     if user:
         storage.delete(user)
@@ -49,8 +50,7 @@ def remove_user(user_id):
 
 @app_views.route('/users', methods=['POST'])
 def add_user():
-    '''Adds a new user.
-    '''
+    """ Creates a User """
     data = {}
     try:
         data = request.get_json()
@@ -74,8 +74,7 @@ def add_user():
 
 @app_views.route('/users/<user_id>', methods=['PUT'])
 def update_user(user_id):
-    '''Updates the user with the given id.
-    '''
+    """ Updates a User object """
     xkeys = ('id', 'email', 'created_at', 'updated_at')
     user = storage.get(User, user_id)
     if user:

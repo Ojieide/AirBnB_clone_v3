@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-'''Contains the states view for the API.'''
+"""
+Creates a new view for State objects that handles all
+default RESTFul API actions
+"""
 from flask import jsonify, request
 from werkzeug.exceptions import NotFound, MethodNotAllowed, BadRequest
 
@@ -9,14 +12,15 @@ from models.state import State
 
 
 ALLOWED_METHODS = ['GET', 'DELETE', 'POST', 'PUT']
-'''Methods allowed for the states endpoint.'''
+""" State objects """
 
 
 @app_views.route('/states', methods=ALLOWED_METHODS)
 @app_views.route('/states/<state_id>', methods=ALLOWED_METHODS)
 def handle_states(state_id=None):
-    '''The method handler for the states endpoint.
-    '''
+    """
+    State objects that handles all default RESTFul API actions
+    """
     handlers = {
         'GET': get_states,
         'DELETE': remove_state,
@@ -30,8 +34,7 @@ def handle_states(state_id=None):
 
 
 def get_states(state_id=None):
-    '''Gets the state with the given id or all states.
-    '''
+    """ Retrieves a State object or list of all State objects """
     all_states = storage.all(State).values()
     if state_id:
         res = list(filter(lambda x: x.id == state_id, all_states))
@@ -43,8 +46,7 @@ def get_states(state_id=None):
 
 
 def remove_state(state_id=None):
-    '''Removes a state with the given id.
-    '''
+    """ Deletes a State object """
     all_states = storage.all(State).values()
     res = list(filter(lambda x: x.id == state_id, all_states))
     if res:
@@ -55,8 +57,7 @@ def remove_state(state_id=None):
 
 
 def add_state(state_id=None):
-    '''Adds a new state.
-    '''
+    """ Creates a State """
     data = request.get_json()
     if type(data) is not dict:
         raise BadRequest(description='Not a JSON')
@@ -68,8 +69,7 @@ def add_state(state_id=None):
 
 
 def update_state(state_id=None):
-    '''Updates the state with the given id.
-    '''
+    """ Updates a State object """
     xkeys = ('id', 'created_at', 'updated_at')
     all_states = storage.all(State).values()
     res = list(filter(lambda x: x.id == state_id, all_states))

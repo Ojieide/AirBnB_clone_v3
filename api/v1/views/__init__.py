@@ -1,10 +1,12 @@
 #!/usr/bin/python3
-'''Contains the blueprint for the API.'''
+""" Imports Blueprint from flask doc """
 from flask import Blueprint
 
 
 app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')
-'''The blueprint for the AirBnB clone API.'''
+"""
+Creates a variable app_views which is an instance of Blueprint
+"""
 
 
 from api.v1.views.amenities import *

@@ -1,5 +1,8 @@
-#!/usr/bin/python3
-'''Contains the places view for the API.'''
+#!/usr/bin/python3i
+"""
+Create a new view for Place objects that handles
+all default RESTFul API actions
+"""
 from flask import jsonify, request
 from werkzeug.exceptions import NotFound, MethodNotAllowed, BadRequest
 
@@ -15,8 +18,9 @@ from models.user import User
 @app_views.route('/cities/<city_id>/places', methods=['GET', 'POST'])
 @app_views.route('/places/<place_id>', methods=['GET', 'DELETE', 'PUT'])
 def handle_places(city_id=None, place_id=None):
-    '''The method handler for the places endpoint.
-    '''
+    """
+    Place objects that handles all default RESTFul API actions
+    """
     handlers = {
         'GET': get_places,
         'DELETE': remove_place,
@@ -30,9 +34,9 @@ def handle_places(city_id=None, place_id=None):
 
 
 def get_places(city_id=None, place_id=None):
-    '''Gets the place with the given id or all places in
-    the city with the given id.
-    '''
+    """
+    Retrieves a Place object or list of all Place objects of a City
+    """
     if city_id:
         city = storage.get(City, city_id)
         if city:
@@ -54,8 +58,7 @@ def get_places(city_id=None, place_id=None):
 
 
 def remove_place(city_id=None, place_id=None):
-    '''Removes a place with the given id.
-    '''
+    """ Deletes a Place object """
     if place_id:
         place = storage.get(Place, place_id)
         if place:
@@ -66,8 +69,7 @@ def remove_place(city_id=None, place_id=None):
 
 
 def add_place(city_id=None, place_id=None):
-    '''Adds a new place.
-    '''
+    """ Creates a Place """
     city = storage.get(City, city_id)
     if not city:
         raise NotFound()
@@ -88,8 +90,7 @@ def add_place(city_id=None, place_id=None):
 
 
 def update_place(city_id=None, place_id=None):
-    '''Updates the place with the given id.
-    '''
+    """ Updates a Place object """
     xkeys = ('id', 'user_id', 'city_id', 'created_at', 'updated_at')
     place = storage.get(Place, place_id)
     if place:
@@ -106,8 +107,9 @@ def update_place(city_id=None, place_id=None):
 
 @app_views.route('/places_search', methods=['POST'])
 def find_places():
-    '''Finds places based on a list of State, City, or Amenity ids.
-    '''
+    """
+    Searches for places based on a list of State, City, or Amenity ids
+    """
     data = request.get_json()
     if type(data) is not dict:
         raise BadRequest(description='Not a JSON')

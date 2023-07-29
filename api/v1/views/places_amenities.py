@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-'''Contains the places_amenities view for the API.'''
+"""
+Creates a new view for the link between Place objects and Amenity
+objects that handles all default RESTFul API actions
+"""
 from flask import jsonify, request
 from werkzeug.exceptions import NotFound, MethodNotAllowed
 
@@ -15,8 +18,10 @@ from models.place import Place
     methods=['DELETE', 'POST']
 )
 def handle_places_amenities(place_id=None, amenity_id=None):
-    '''The method handler for the places endpoint.
-    '''
+    """
+    Places objects and Amenity objects that handles all
+    default RESTFul API actions
+    """
     handlers = {
         'GET': get_place_amenities,
         'DELETE': remove_place_amenity,
@@ -29,8 +34,7 @@ def handle_places_amenities(place_id=None, amenity_id=None):
 
 
 def get_place_amenities(place_id=None, amenity_id=None):
-    '''Gets the amenities of a place with the given id.
-    '''
+    """ Retrieves the list of all Amenity objects of a Place """
     if place_id:
         place = storage.get(Place, place_id)
         if place:
@@ -40,8 +44,7 @@ def get_place_amenities(place_id=None, amenity_id=None):
 
 
 def remove_place_amenity(place_id=None, amenity_id=None):
-    '''Removes an amenity with a given id from a place with a given id.
-    '''
+    """ Deletes a Amenity object to a Place """
     if place_id and amenity_id:
         place = storage.get(Place, place_id)
         if not place:
@@ -72,8 +75,7 @@ def remove_place_amenity(place_id=None, amenity_id=None):
 
 
 def add_place_amenity(place_id=None, amenity_id=None):
-    '''Adds an amenity with a given id to a place with a given id.
-    '''
+    """ Links a Amenity object to a Place """
     if place_id and amenity_id:
         place = storage.get(Place, place_id)
         if not place:

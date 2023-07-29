@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-'''Contains the places_reviews view for the API.'''
+"""
+Create a new view for Review object that handles all
+default RESTFul API actions
+"""
 from flask import jsonify, request
 from werkzeug.exceptions import NotFound, MethodNotAllowed, BadRequest
 
@@ -13,8 +16,9 @@ from models.user import User
 @app_views.route('/places/<place_id>/reviews', methods=['GET', 'POST'])
 @app_views.route('/reviews/<review_id>', methods=['GET', 'DELETE', 'PUT'])
 def handle_reviews(place_id=None, review_id=None):
-    '''The method handler for the reviews endpoint.
-    '''
+    """
+    Reviews object that handles all default RESTFul API actions
+    """
     handlers = {
         'GET': get_reviews,
         'DELETE': remove_review,
@@ -28,9 +32,9 @@ def handle_reviews(place_id=None, review_id=None):
 
 
 def get_reviews(place_id=None, review_id=None):
-    '''Gets the review with the given id or all reviews in
-    the place with the given id.
-    '''
+    """
+    Retrieves a Review object or list of all Review objects of a Place
+    """
     if place_id:
         place = storage.get(Place, place_id)
         if place:
@@ -46,8 +50,7 @@ def get_reviews(place_id=None, review_id=None):
 
 
 def remove_review(place_id=None, review_id=None):
-    '''Removes a review with the given id.
-    '''
+    """ Deletes a Review object """
     review = storage.get(Review, review_id)
     if review:
         storage.delete(review)
@@ -57,8 +60,7 @@ def remove_review(place_id=None, review_id=None):
 
 
 def add_review(place_id=None, review_id=None):
-    '''Adds a new review.
-    '''
+    """ Creates a Review """
     place = storage.get(Place, place_id)
     if not place:
         raise NotFound()
@@ -79,8 +81,7 @@ def add_review(place_id=None, review_id=None):
 
 
 def update_review(place_id=None, review_id=None):
-    '''Updates the review with the given id.
-    '''
+    """ Updates a Review object """
     xkeys = ('id', 'user_id', 'place_id', 'created_at', 'updated_at')
     if review_id:
         review = storage.get(Review, review_id)
